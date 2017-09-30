@@ -1,65 +1,50 @@
 //
-//  NotesViewController.swift
+//  DataProvider.swift
 //  SimpleNote
 //
-//  Created by ParaBellum on 9/29/17.
+//  Created by ParaBellum on 9/30/17.
 //  Copyright © 2017 ParaBellum. All rights reserved.
 //
 
 import UIKit
 import CoreData
-
-class NotesViewController: UIViewController {
+class DataProvider:NSObject,UITableViewDelegate,UITableViewDataSource{
     //MARK: Properties
+    var moc:NSManagedObjectContext!
+    weak var tableView:UITableView!
     fileprivate let cellID = "NoteCell"
-    fileprivate let segueID = "AddNewNote"
-    
-    var managedObjectContext = CoreDataManager.instance.managedObjectContext
-    
     fileprivate lazy var fetchedResultController: NSFetchedResultsController<Note> = {
         let fetchRequest:NSFetchRequest<Note> = Note.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "dateAdded", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:self.managedObjectContext, sectionNameKeyPath:  nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:self.moc, sectionNameKeyPath:  nil, cacheName: nil)
         fetchedResultsController.delegate = self
         return fetchedResultsController
     }()
-    //MARK: Outlets
-    @IBOutlet weak var tableView: UITableView!
-    
-    //MARK: LifeCycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    //MARK: Init
+    convenience init(_ moc:NSManagedObjectContext,tableView:UITableView){
+        self.init()
+        self.moc = moc
+        self.tableView = tableView
         configureTableView()
         fetchData()
     }
-    
-    
-    
-    //MARK: Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == segueID{
-            let addNoteVC = segue.destination as! AddNewNoteViewController
-            addNoteVC.moc = self.managedObjectContext
-        }
-    }
-    
-    //MARK: Funcs
+  
+    //MARK:Funcs
     fileprivate func configureTableView(){
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
     }
-    fileprivate func fetchData() {
+    func fetchData() {
         do{
             try fetchedResultController.performFetch()
         } catch{
             fatalError("Error fetching Notes")
         }
     }
-}
-
-extension NotesViewController:UITableViewDelegate, UITableViewDataSource{
+    //MARK: TableView DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
+       
         return fetchedResultController.sections!.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,14 +54,18 @@ extension NotesViewController:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! NoteTableViewCell
-        let note = fetchedResultController.object(at: indexPath)
-        cell.configure(with: note)
+        configureCell(for: cell, at: indexPath)
         return cell
     }
+    func configureCell(for cell:NoteTableViewCell , at indexPath: IndexPath){
+        let note = fetchedResultController.object(at: indexPath)
+        cell.configure(with: note)
+    }
+    //Delegate
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             let note = fetchedResultController.object(at: indexPath)
-            managedObjectContext.delete(note)
+            moc.delete(note)
             CoreDataManager.instance.saveContext()
         }
     }
@@ -84,10 +73,8 @@ extension NotesViewController:UITableViewDelegate, UITableViewDataSource{
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    
 }
-
-extension NotesViewController: NSFetchedResultsControllerDelegate{
+extension DataProvider: NSFetchedResultsControllerDelegate{
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
         
@@ -121,3 +108,4 @@ extension NotesViewController: NSFetchedResultsControllerDelegate{
         tableView.endUpdates()
     }
 }
+

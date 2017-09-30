@@ -20,6 +20,7 @@
 		5C63061F1F7F75EA00396321 /* UIButtonX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C63061E1F7F75EA00396321 /* UIButtonX.swift */; };
 		5C6306211F7F779F00396321 /* UITextView+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6306201F7F779F00396321 /* UITextView+Placeholder.swift */; };
 		5C6306231F7F7ECE00396321 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6306221F7F7ECE00396321 /* Note+CoreDataProperties.swift */; };
+		5C6306271F7FB03C00396321 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6306261F7FB03C00396321 /* DataProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		5C63061E1F7F75EA00396321 /* UIButtonX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonX.swift; sourceTree = "<group>"; };
 		5C6306201F7F779F00396321 /* UITextView+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Placeholder.swift"; sourceTree = "<group>"; };
 		5C6306221F7F7ECE00396321 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5C6306261F7FB03C00396321 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +113,8 @@
 		5C5054741F7ED8BA000D7964 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5C63061B1F7F73D400396321 /* AddNewNoteViewController.swift */,
-				5C50546A1F7ED51F000D7964 /* NotesViewController.swift */,
+				5C6306241F7FB00900396321 /* NotesScreen */,
+				5C6306251F7FB01700396321 /* AddNewNoteScreen */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -142,6 +144,23 @@
 				5C6306201F7F779F00396321 /* UITextView+Placeholder.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5C6306241F7FB00900396321 /* NotesScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5C50546A1F7ED51F000D7964 /* NotesViewController.swift */,
+				5C6306261F7FB03C00396321 /* DataProvider.swift */,
+			);
+			path = NotesScreen;
+			sourceTree = "<group>";
+		};
+		5C6306251F7FB01700396321 /* AddNewNoteScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5C63061B1F7F73D400396321 /* AddNewNoteViewController.swift */,
+			);
+			name = AddNewNoteScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,6 +240,7 @@
 				5C6306211F7F779F00396321 /* UITextView+Placeholder.swift in Sources */,
 				5C5054551F7ED309000D7964 /* AppDelegate.swift in Sources */,
 				5C5054721F7ED80F000D7964 /* Model.xcdatamodeld in Sources */,
+				5C6306271F7FB03C00396321 /* DataProvider.swift in Sources */,
 				5C63061F1F7F75EA00396321 /* UIButtonX.swift in Sources */,
 				5C5054791F7EDC0B000D7964 /* Note+CoreDataClass.swift in Sources */,
 				5C50546B1F7ED51F000D7964 /* NotesViewController.swift in Sources */,
